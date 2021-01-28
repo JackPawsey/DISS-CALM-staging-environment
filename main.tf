@@ -11,7 +11,7 @@ terraform {
 }
 
 module "calm" {
-  source = "git@gitlab.com:simply-calm/terraform-module.git?ref=v1.0"
+  source = "git@gitlab.com:simply-calm/terraform-module.git?ref=v1.1"
   
   name = "calm"
 
