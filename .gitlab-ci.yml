@@ -1,0 +1,129 @@
+image:
+  name: registry.gitlab.com/jackpawsey/container-builder/calm-pipeline-image
+ 
+before_script:
+  - rm -rf .terraform
+  - mkdir -p ./creds
+  - echo $SERVICEACCOUNT | base64 -d > ./creds/serviceaccount.json
+  - eval $(ssh-agent -s)
+  - echo "$CALM_DEPLOY_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - terraform init
+  - terraform --version
+  - kubectl version --client
+  - ansible --version
+  - jq --version
+
+stages:
+  - validate
+  - plan
+  - apply
+  - config
+  - destroy
+
+validate:
+  stage: validate
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - terraform plan -out "planfile"
+  dependencies:
+    - validate
+  artifacts:
+    paths:
+      - planfile
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -input=false "planfile"
+    - terraform output -json
+    - |
+      terraform output -json | jq -r 'keys[] as $k | "\($k): \(.[$k].value)"' > output.yml
+    - cat output.yml
+  dependencies:
+    - plan
+  artifacts:
+    paths:
+      - output.yml
+  when: manual
+  only:
+    - master
+
+config-logstash:
+  stage: config
+  before_script:
+    - BASE_URL=`echo $CI_REPOSITORY_URL | sed "s;\/*$CI_PROJECT_PATH.*;;"`
+    - REPO_URL="$BASE_URL/simply-calm/ansible"
+    - REPO_DIR=ansible
+    - rm -fr $REPO_DIR
+    - git clone $REPO_URL $REPO_DIR
+    - eval $(ssh-agent -s)
+    - echo "$ANSIBLE_SSH_KEY" | tr -d '\r' | ssh-add -
+  script:
+    - ansible-playbook ansible/logstash/install-logstash.yaml
+  when: manual
+  only:
+    - master
+
+config-prometheus:
+  stage: config
+  before_script:
+    - BASE_URL=`echo $CI_REPOSITORY_URL | sed "s;\/*$CI_PROJECT_PATH.*;;"`
+    - REPO_URL="$BASE_URL/simply-calm/ansible"
+    - REPO_DIR=ansible
+    - rm -fr $REPO_DIR
+    - git clone $REPO_URL $REPO_DIR
+    - eval $(ssh-agent -s)
+    - echo "$ANSIBLE_SSH_KEY" | tr -d '\r' | ssh-add -
+  script:
+    - ansible-playbook ansible/prometheus/install-prometheus.yaml
+  when: manual
+  only:
+    - master
+
+config-grafana:
+  stage: config
+  before_script:
+    - BASE_URL=`echo $CI_REPOSITORY_URL | sed "s;\/*$CI_PROJECT_PATH.*;;"`
+    - REPO_URL="$BASE_URL/simply-calm/ansible"
+    - REPO_DIR=ansible
+    - rm -fr $REPO_DIR
+    - git clone $REPO_URL $REPO_DIR
+    - eval $(ssh-agent -s)
+    - echo "$ANSIBLE_SSH_KEY" | tr -d '\r' | ssh-add -
+  script:
+    - ansible-playbook ansible/grafana/install-grafana.yaml
+  when: manual
+  only:
+    - master
+
+config-alertmanager:
+  stage: config
+  before_script:
+    - BASE_URL=`echo $CI_REPOSITORY_URL | sed "s;\/*$CI_PROJECT_PATH.*;;"`
+    - REPO_URL="$BASE_URL/simply-calm/ansible"
+    - REPO_DIR=ansible
+    - rm -fr $REPO_DIR
+    - git clone $REPO_URL $REPO_DIR
+    - eval $(ssh-agent -s)
+    - echo "$ANSIBLE_SSH_KEY" | tr -d '\r' | ssh-add -
+  script:
+    - ansible-playbook ansible/alertmanager/install-alertmanager.yaml
+  when: manual
+  only:
+    - master
+  
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve -force
+  when: manual
+  only: 
+    - master
