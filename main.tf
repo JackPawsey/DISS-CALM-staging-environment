@@ -50,9 +50,19 @@ output "logstash_instance_id" {
   description = "Logstash instance ID"
 }
 
+output "logstash_instance_ip" {
+  value       = module.calm.logstash_instance_ip
+  description = "Logstash instance IP"
+}
+
 output "prometheus_instance_id" {
   value       = module.calm.prometheus_instance_id
   description = "Prometheus instance ID"
+}
+
+output "prometheus_instance_ip" {
+  value       = module.calm.prometheus_instance_ip
+  description = "Prometheus instance IP"
 }
 
 output "alertmanager_instance_id" {
@@ -60,9 +70,19 @@ output "alertmanager_instance_id" {
   description = "Alertmanager instance ID"
 }
 
+output "alertmanager_instance_ip" {
+  value       = module.calm.alertmanager_instance_ip
+  description = "Alertmanager instance IP"
+}
+
 output "grafana_instance_id" {
   value       = module.calm.grafana_instance_id
   description = "Grafana instance ID"
+}
+
+output "grafana_instance_ip" {
+  value       = module.calm.grafana_instance_ip
+  description = "Grafana instance IP"
 }
 
 output "s3_bucket_name" {
