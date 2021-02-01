@@ -45,6 +45,11 @@ output "env" {
   description = "The deployment environment"
 }
 
+output "name" {
+  value       = module.calm.name
+  description = "The name of deployment"
+}
+
 output "logstash_instance_id" {
   value       = module.calm.logstash_instance_id
   description = "Logstash instance ID"
