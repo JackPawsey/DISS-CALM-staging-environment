@@ -44,21 +44,13 @@ module "calm" {
   #elasticsearch_configuration = "staging" # "staging" - 1 t2.small.elasticsearch or "prod" - 3 m5.large.elasticsearch
 
   # TESTING ##
-  #es_data_instance_type = "t2.small.elasticsearch"
-  #es_data_node_count = 1
+  es_data_instance_type = "t2.small.elasticsearch"
+  es_data_node_count = 1
   
-  #ebs_volume_size = 10
+  ebs_volume_size = 10
 
-  #es_rest_encryption = false # defaults true (can't be used with t2.small)
-  #es_node2node_encryption = false # defaults true (can't be used with t2.small)
-
-  es_data_instance_type = "m5.large.elasticsearch"
-  es_data_node_count = 3
-  
-  ebs_volume_size = 22
-
-  es_master_count = 3
-  es_master_instance_type = "m5.large.elasticsearch"
+  es_rest_encryption = false # defaults true (can't be used with t2.small)
+  es_node2node_encryption = false # defaults true (can't be used with t2.small)
 
   # es_days_to_retain = 5
 }
