@@ -39,7 +39,20 @@ module "calm" {
   grafana_instance_type = "t2.small"
   grafana_storage_size = 10
 
-  elasticsearch_configuration = "staging" # "staging" - 1 t2.small.elasticsearch or "prod" - 3 m5.large.elasticsearch
+  # Elasticsearch Config ####################
+
+  #elasticsearch_configuration = "staging" # "staging" - 1 t2.small.elasticsearch or "prod" - 3 m5.large.elasticsearch
+
+  es_data_instance_type = "t2.small.elasticsearch"
+  es_data_node_count = 1
+  
+  ebs_volume_size = 10
+
+  es_rest_encryption = false # defaults true (can't be used with t2.small)
+  es_node2node_encryption = false # defaults true (can't be used with t2.small)
+
+  #es_master_count
+  #es_master_instance_type
 
   # es_days_to_retain = 5
 }
