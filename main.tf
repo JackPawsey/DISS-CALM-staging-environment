@@ -11,7 +11,7 @@ terraform {
 }
 
 module "calm" {
-  source = "git@gitlab.com:simply-calm/terraform-module.git?ref=v1.3"
+  source = "git@gitlab.com:simply-calm/terraform-module.git?ref=v1.4"
   
   name = "calm"
 
@@ -28,12 +28,16 @@ module "calm" {
   zone_id = "Z06102122M7792QQSFCAD"
 
   logstash_instance_type = "t2.small"
+  logstash_storage_size = 10
   
   prometheus_instance_type = "t2.small"
+  prometheus_storage_size = 10
   
   alertmanager_instance_type = "t2.small"
+  alertmanager_storage_size = 10
   
   grafana_instance_type = "t2.small"
+  grafana_storage_size = 10
 
   elasticsearch_configuration = "staging" # "staging" - 1 t2.small.elasticsearch or "prod" - 3 m5.large.elasticsearch
 
