@@ -45,6 +45,11 @@ output "env" {
   description = "The deployment environment"
 }
 
+output "region" {
+  value       = module.calm.region
+  description = "The deployment region"
+}
+
 output "name" {
   value       = module.calm.name
   description = "The name of deployment"
