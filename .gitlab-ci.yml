@@ -6,7 +6,7 @@ before_script:
   - mkdir -p ./creds
   - echo $SERVICEACCOUNT | base64 -d > ./creds/serviceaccount.json
   - eval $(ssh-agent -s)
-  #- echo "$CALM_DEPLOY_KEY" | tr -d '\r' | ssh-add -
+  - echo "$CALM_DEPLOY_KEY" | tr -d '\r' | ssh-add -
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
