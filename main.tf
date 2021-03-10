@@ -11,7 +11,7 @@ terraform {
 }
 
 module "calm" {
-  source = "git@gitlab.com:simply-calm/terraform-module.git" #"git@gitlab.com:simply-calm/terraform-module.git?ref=v1.4"
+  source = "git@gitlab.com:simply-calm/terraform-module.git" #?ref=v1.4
   
   name = "calm"
 
@@ -21,11 +21,13 @@ module "calm" {
 
   vpc_cidr = "10.0.0.0/16"
 
-  subnets = { # "prod" elasticsearch_configuration requires 3 subnets in different AZ's
+  subnets = { # elasticsearch configuration with more than 1 node requires 3 subnets in different AZ's
     eu-west-1a = "10.0.1.0/24"
   }
 
   zone_id = "Z06102122M7792QQSFCAD"
+
+  # EC2 Config ####################
 
   logstash_instance_type = "t2.small"
   logstash_storage_size = 10
@@ -40,8 +42,6 @@ module "calm" {
   grafana_storage_size = 10
 
   # Elasticsearch Config ####################
-
-  #elasticsearch_configuration = "staging" # "staging" - 1 t2.small.elasticsearch or "prod" - 3 m5.large.elasticsearch
 
   # TESTING ##
   es_data_instance_type = "t2.small.elasticsearch"
