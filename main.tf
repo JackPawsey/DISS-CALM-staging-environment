@@ -22,7 +22,9 @@ module "calm" {
   vpc_cidr = "10.0.0.0/16"
 
   subnets = { # elasticsearch configuration with more than 1 node requires 3 subnets in different AZ's
-    eu-west-1a = "10.0.1.0/24"
+    eu-west-1a = "10.0.1.0/24",
+    eu-west-1b = "10.0.2.0/24",
+    eu-west-1c = "10.0.3.0/24"
   }
 
   zone_id = "Z06102122M7792QQSFCAD"
