@@ -30,27 +30,30 @@ module "calm" {
   # EC2 Config ####################
 
   logstash_instance_type = "t2.small"
-  logstash_storage_size = 10
+  logstash_storage_size = 100
   
   prometheus_instance_type = "t2.small"
-  prometheus_storage_size = 10
+  prometheus_storage_size = 100
   
   alertmanager_instance_type = "t2.small"
-  alertmanager_storage_size = 10
+  alertmanager_storage_size = 100
   
   grafana_instance_type = "t2.small"
-  grafana_storage_size = 10
+  grafana_storage_size = 100
 
   # Elasticsearch Config ####################
 
   # TESTING ##
-  es_data_instance_type = "t2.small.elasticsearch"
-  es_data_node_count = 1
-  
-  ebs_volume_size = 10
+  es_data_instance_type = "r5.large.elasticsearch"
+  es_data_node_count = 4
 
-  es_rest_encryption = false # defaults true (can't be used with t2.small)
-  es_node2node_encryption = false # defaults true (can't be used with t2.small)
+  es_master_count = 3
+  es_master_instance_type = "c5.large.elasticsearch"
+  
+  ebs_volume_size = 100
+
+  #es_rest_encryption = false # defaults true (can't be used with t2.small)
+  #es_node2node_encryption = false # defaults true (can't be used with t2.small)
 
   # es_days_to_retain = 5
 }
