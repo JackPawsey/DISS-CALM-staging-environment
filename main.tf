@@ -22,9 +22,9 @@ module "calm" {
   vpc_cidr = "10.0.0.0/16"
 
   subnets = { # elasticsearch configuration with more than 1 node requires 3 subnets in different AZ's
-    eu-west-1a = "10.0.1.0/24",
-    eu-west-1b = "10.0.2.0/24",
-    eu-west-1c = "10.0.3.0/24"
+    eu-west-1a = "10.0.1.0/24"
+    #eu-west-1b = "10.0.2.0/24",
+    #eu-west-1c = "10.0.3.0/24"
   }
 
   zone_id = "Z06102122M7792QQSFCAD"
@@ -46,16 +46,16 @@ module "calm" {
   # Elasticsearch Config ####################
 
   # TESTING ##
-  es_data_instance_type = "r5.large.elasticsearch"
-  es_data_node_count = 4
+  es_data_instance_type = "t2.small.elasticsearch"
+  es_data_node_count = 1
 
-  es_master_count = 3
-  es_master_instance_type = "c5.large.elasticsearch"
+  #es_master_count = 3
+  #es_master_instance_type = "c5.large.elasticsearch"
   
   ebs_volume_size = 100
 
-  #es_rest_encryption = false # defaults true (can't be used with t2.small)
-  #es_node2node_encryption = false # defaults true (can't be used with t2.small)
+  es_rest_encryption = false # defaults true (can't be used with t2.small)
+  es_node2node_encryption = false # defaults true (can't be used with t2.small)
 
   # es_days_to_retain = 5
 }
