@@ -3,7 +3,7 @@ terraform {
   
   backend "s3" {
     bucket         = "jack-pawsey-staging-terraform-state"
-    key            = "centralized-logging.tfstate"
+    key            = "calm.tfstate"
     region         = "eu-west-1"
     dynamodb_table = "staging-terraform-state-locks"
     encrypt        = true
@@ -56,8 +56,6 @@ module "calm" {
 
   es_rest_encryption = false # defaults true (can't be used with t2.small)
   es_node2node_encryption = false # defaults true (can't be used with t2.small)
-
-  # es_days_to_retain = 5
 }
 
 output "env" {
